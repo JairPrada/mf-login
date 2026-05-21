@@ -1,4 +1,9 @@
 /* ── Login MF ── */
+@keyframes login-spin { to { transform: rotate(360deg); } }
+.login-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: login-spin 0.65s linear infinite; vertical-align: middle; margin-right: 8px; flex-shrink: 0; }
+.login-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.6); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; border-radius: 8px; z-index: 10; }
+.login-overlay-spinner { width: 36px; height: 36px; border: 3px solid #e0e7ef; border-top-color: #0057a8; border-radius: 50%; animation: login-spin 0.75s linear infinite; }
+.login-form-wrap { position: relative; }
 .login-root {
   min-height: 100vh;
   display: flex;

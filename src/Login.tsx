@@ -10,12 +10,20 @@ function Login({ emit }: LoginProps) {
   const [docType, setDocType] = useState("");
   const [docNumber, setDocNumber] = useState("");
   const [occupation, setOccupation] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const canContinue = accepted && docType && docNumber && occupation;
 
-  const handleContinue = () => {
-    if (!canContinue) return;
-    emit("login:submit", { docType, docNumber, occupation });
+  const handleContinue = async () => {
+    if (!canContinue || loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+      const user = await res.json();
+      emit("login:submit", { docType, docNumber, occupation, userId: user.id });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,7 +36,7 @@ function Login({ emit }: LoginProps) {
           </div>
         </div>
         <nav className="login-nav">
-          <span>Cr\u00e9dito </span>
+          <span>Crédito </span>
           <span className="login-nav-highlight">Hipotecario</span>
         </nav>
       </header>
@@ -38,6 +46,12 @@ function Login({ emit }: LoginProps) {
           <br />
           ingrese los siguientes datos
         </h2>
+        <div className="login-form-wrap">
+          {loading && (
+            <div className="login-overlay">
+              <div className="login-overlay-spinner" />
+            </div>
+          )}
         <div className="login-form">
           <div className="login-select-wrap">
             <select
@@ -46,15 +60,15 @@ function Login({ emit }: LoginProps) {
               onChange={(e) => setDocType(e.target.value)}
             >
               <option value="" disabled>Tipo de documento</option>
-              <option value="cc">C\u00e9dula de ciudadan\u00eda</option>
-              <option value="ce">C\u00e9dula de extranjer\u00eda</option>
+              <option value="cc">Cédula de ciudadanía</option>
+              <option value="ce">Cédula de extranjería</option>
               <option value="pa">Pasaporte</option>
             </select>
           </div>
           <input
             type="text"
             className="login-input"
-            placeholder="N\u00famero de documento"
+            placeholder="Número de documento"
             value={docNumber}
             onChange={(e) => setDocNumber(e.target.value)}
           />
@@ -64,7 +78,7 @@ function Login({ emit }: LoginProps) {
               value={occupation}
               onChange={(e) => setOccupation(e.target.value)}
             >
-              <option value="" disabled>Ocupaci\u00f3n</option>
+              <option value="" disabled>Ocupación</option>
               <option value="emp">Empleado</option>
               <option value="ind">Independiente</option>
               <option value="pen">Pensionado</option>
@@ -78,18 +92,19 @@ function Login({ emit }: LoginProps) {
               onChange={(e) => setAccepted(e.target.checked)}
             />
             <span className="login-checkbox-text">
-              He le\u00eddo y acepto el{" "}
+              He leído y acepto el{" "}
               <a href="#" className="login-link">tratamiento de datos personales</a>{" "}
-              para los fines previstos en la autorizaci\u00f3n.
+              para los fines previstos en la autorización.
             </span>
           </label>
           <button
-            className={`login-btn${canContinue ? " login-btn--active" : ""}`}
-            disabled={!canContinue}
+            className={`login-btn${canContinue && !loading ? " login-btn--active" : ""}`}
+            disabled={!canContinue || loading}
             onClick={handleContinue}
           >
-            Continuar
+            {loading ? <><span className="login-spinner" />Verificando...</> : "Continuar"}
           </button>
+        </div>
         </div>
       </main>
     </div>
