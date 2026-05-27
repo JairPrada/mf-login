@@ -1,6 +1,7 @@
 import { createElement } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import Login from './Login';
+import { manifest } from './manifest';
 
 // Auto-inject this MF's stylesheet
 const cssUrl = new URL('./remoteEntry.css', import.meta.url).href;
@@ -14,6 +15,7 @@ if (!document.querySelector(`link[href="${cssUrl}"]`)) {
 const roots = new WeakMap<HTMLElement, Root>();
 
 export default {
+    manifest,
     mount(el: HTMLElement, props: Record<string, unknown>): void {
         const root = createRoot(el);
         roots.set(el, root);
