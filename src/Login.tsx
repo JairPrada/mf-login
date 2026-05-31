@@ -1,11 +1,8 @@
 import { useState } from "react";
 import "./App.css";
+import { publish } from "./events";
 
-interface LoginProps {
-  emit: (event: string, detail: Record<string, unknown>) => void;
-}
-
-function Login({ emit }: LoginProps) {
+function Login() {
   const [accepted, setAccepted] = useState(false);
   const [docType, setDocType] = useState("");
   const [docNumber, setDocNumber] = useState("");
@@ -20,7 +17,7 @@ function Login({ emit }: LoginProps) {
     try {
       const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
       const user = await res.json();
-      emit("login:submit", { docType, docNumber, occupation, userId: user.id });
+      publish("mf-login:Login:submit", { docType, docNumber, userId: user.id });
     } finally {
       setLoading(false);
     }

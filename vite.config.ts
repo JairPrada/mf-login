@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { manifestPlugin } from '@journals/mf-contract/vite-plugin'
+import { manifestPlugin } from '@journals/lib-manifest/vite-plugin'
 
 export default defineConfig({
   plugins: [react(), manifestPlugin()],
