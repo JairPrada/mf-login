@@ -3,6 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "exports": {
+    "./events": {
+      "types": "./src/events.ts",
+      "default": "./src/events.ts"
+    },
+    "./manifest": {
+      "types": "./src/manifest.ts",
+      "default": "./src/manifest.ts"
+    }
+  },
   "scripts": {
     "dev": "concurrently \"vite build --watch\" \"vite preview --port 3001\"",
     "build": "vite build",
@@ -10,16 +20,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@journals/mf-contract": "workspace:*",
+    "@journals/lib-manifest": "file:./vendor/journals-lib-manifest-0.1.0.tgz",
+    "@journals/lib-service-bus": "file:./vendor/journals-lib-service-bus-0.1.0.tgz",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-react": "^6.0.2",
     "concurrently": "^8.2.2",
-    "typescript": "~6.0.2",
-    "vite": "^8.0.12"
+    "typescript": "~6.0.3",
+    "vite": "^8.0.14"
+  },
+  "pnpm": {
+    "overrides": {
+      "@journals/lib-manifest": "file:./vendor/journals-lib-manifest-0.1.0.tgz",
+      "@journals/lib-service-bus": "file:./vendor/journals-lib-service-bus-0.1.0.tgz"
+    }
   }
 }
